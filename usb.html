@@ -20,12 +20,7 @@
     document.getElementById('requestDeviceButton').addEventListener('click', event => {
 
         navigator.usb
-            .requestDevice({
-                filters: [
-                    { vendorId: 0x4130, productId: 0x17340 },
-                    { vendorId: 0x4130, productId: 0x30996 }
-                ]
-            })
+            .requestDevice()
             .then(device => {
                 console.log(device);
             });
