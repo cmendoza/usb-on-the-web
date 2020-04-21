@@ -20,7 +20,9 @@
     document.getElementById('requestDeviceButton').addEventListener('click', event => {
 
         navigator.usb
-            .requestDevice()
+            .requestDevice({
+                filters: []
+            })
             .then(device => {
                 console.log(device);
             });
