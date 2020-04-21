@@ -2,6 +2,9 @@
 
 <script>
     navigator.usb.getDevices().then(devices => {
+
+        console.log(`Devices found: ${devices.length}`)
+
         devices.map(device => {
             console.log(device.productName);
             console.log(device.manufacturerName);
