@@ -10,4 +10,10 @@
             console.log(device.manufacturerName);
         });
     });
+
+    navigator.usb
+        .requestDevice({ filters: [{ productId: 0x17340 }] })
+        .then(device => {
+            console.log(device);
+        });
 </script>
