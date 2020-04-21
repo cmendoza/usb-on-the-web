@@ -19,12 +19,24 @@
 
     document.getElementById('requestDeviceButton').addEventListener('click', event => {
 
+        let myDevice;
+
         navigator.usb
             .requestDevice({
                 filters: []
             })
             .then(device => {
-                console.log(device);
+
+                myDevice = device;
+                return myDevice.open();
+            })
+            .then(() => {
+
+                console.log(`Configurations: ${myDevice.configurations.length}`);
+            })
+            .catch(error => {
+
+                alert(`Error: ${error}`);
             });
     });
 </script>
