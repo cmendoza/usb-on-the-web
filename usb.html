@@ -1,3 +1,10 @@
 <button>Test!</button>
 
-<script src="usb.js"></script>
+<script>
+    navigator.usb.getDevices().then(devices => {
+        devices.map(device => {
+            console.log(device.productName);
+            console.log(device.manufacturerName);
+        });
+    });
+</script>
