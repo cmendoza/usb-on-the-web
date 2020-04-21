@@ -6,16 +6,7 @@
     <title>Access USB Devices on the Web</title>
 </head>
 <body>
-    <iframe allowpaymentrequest allow='usb'>
-        <span>Reading devices...</span>
-        <script>
-            navigator.usb.getDevices().then(devices => {
-                devices.map(device => {
-                    console.log(device.productName);
-                    console.log(device.manufacturerName);
-                });
-            });
-        </script>
+    <iframe allow="usb self" src="usb.html">
     </iframe>
 </body>
 </html>
