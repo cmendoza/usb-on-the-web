@@ -1,23 +1,29 @@
-<button id="myButton">Test!</button>
+<button id="requestDeviceButton">Request device</button>
+|
+<button id="getDevicesButton">Get devices</button>
 
 <script>
-    navigator.usb.getDevices().then(devices => {
 
-        console.log(`Devices found: ${devices.length}`)
+    document.getElementById('getDevicesButton').addEventListener('click', event => {
 
-        devices.map(device => {
-            console.log(device.productName);
-            console.log(device.manufacturerName);
+        navigator.usb.getDevices().then(devices => {
+
+            console.log(`Devices found: ${devices.length}`)
+
+            devices.map(device => {
+                console.log(device.productName);
+                console.log(device.manufacturerName);
+            });
         });
     });
 
-    document.getElementById('myButton').addEventListener('click', (event) => {
+    document.getElementById('requestDeviceButton').addEventListener('click', event => {
 
         navigator.usb
             .requestDevice({
                 filters: [
                     { vendorId: 0x4130, productId: 0x17340 },
-                    { vendorId: 0x4130 }
+                    { vendorId: 0x4130, productId: 0x30996 }
                 ]
             })
             .then(device => {
