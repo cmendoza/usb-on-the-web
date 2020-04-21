@@ -1,42 +1,41 @@
-<button id="requestDeviceButton">Request device</button>
-|
-<button id="getDevicesButton">Get devices</button>
+<button onclick="connectAndSendToPrinter()">Send to Printer</button>
+
+<textarea placeholder="Type the text to print..." id="textToPrint" cols="30" rows="10"></textarea>
 
 <script>
+    let device = null;
 
-    document.getElementById('getDevicesButton').addEventListener('click', event => {
+    function setup(device) {
 
-        navigator.usb.getDevices().then(devices => {
+        return device.open()
+                .then(() => device.selectConfiguration(1))
+                .then(() => device.claimInterface(0))
+    }
 
-            console.log(`Devices found: ${devices.length}`)
+    function sendToPrinter() {
 
-            devices.map(device => {
-                console.log(device.productName);
-                console.log(device.manufacturerName);
-            });
-        });
-    });
+        const textToPrint = document.getElementById("textToPrint").value + "\n";
+        const encoder = new TextEncoder();
+        const data = encoder.encode(textToPrint);
+        device.transferOut(1, data).catch(error => { console.log(`[Print] Error: ${error}`); })
+    }
 
-    document.getElementById('requestDeviceButton').addEventListener('click', event => {
+    function connectAndSendToPrinter() {
 
-        let myDevice;
+        if (device !== null) {
+
+            sendToPrinter();
+        }
 
         navigator.usb
-            .requestDevice({
-                filters: []
-            })
-            .then(device => {
+            .requestDevice({ filters: [] })
+            .then(selectedDevice => {
 
-                myDevice = device;
-                return myDevice.open();
+                device = selectedDevice;
+                console.log(`Selected device: ${device}`);
+                return setup(device);
             })
-            .then(() => {
-
-                console.log(`Configurations: ${myDevice.configurations.length}`);
-            })
-            .catch(error => {
-
-                alert(`Error: ${error}`);
-            });
-    });
+            .then(() => sendToPrinter())
+            .catch(error => { console.log(`[connectAndSendToPrinter] Error: ${error}`); })
+    }
 </script>
