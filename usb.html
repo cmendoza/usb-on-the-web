@@ -14,7 +14,12 @@
     document.getElementById('myButton').addEventListener('click', (event) => {
 
         navigator.usb
-            .requestDevice({ filters: [{ productId: 0x17340 }] })
+            .requestDevice({
+                filters: [
+                    { vendorId: 0x4130, productId: 0x17340 },
+                    { vendorId: 0x4130 }
+                ]
+            })
             .then(device => {
                 console.log(device);
             });
